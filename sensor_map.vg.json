@@ -1,0 +1,89 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 500,
+    "title": "Melbourne Pedestrian Activity (September 16th, 2020)",
+    "projection": {"type":"equirectangular","scale":1050000,"center":[144.957783,-37.809564]},
+
+    "params": [
+        {   "name": "time_hour", "value": 0,
+            "bind": {"input": "range", "min": 0, "max": 23, "step": 1,"name": "Time(Hour)"}
+    }
+    ],
+
+    "datasets": {
+        "pedcounts": {
+            "url": "data/PedCounts2020Sept16th.csv",
+            "format":{"type": "csv"}
+        }
+    },
+
+    "layer": [
+        {
+            "data":{
+                "url": "data/Melbourne-Topo.json", 
+                "format":{"type": "topojson","feature": "Municipal boundary"}
+            },
+            "mark": {"type": "geoshape","fill":"white", "stroke": "black"}
+        },
+        {
+            "data":{
+                "url": "data/Melbourne-Topo.json",
+                "format":{"type": "topojson","feature": "Waterways_Centreline"}
+            },
+            "mark": {"type": "geoshape", "stroke": "lightblue","fill":null,"strokeWidth": 10}
+        },
+        {
+            "data":{
+                "url": "data/Melbourne-Topo.json",
+                "format":{"type": "topojson","feature": "Street names"}
+            },
+            "mark": {"type": "geoshape", "stroke": "grey","fill":null}
+        },
+        {
+            "data":{
+                "url": "data/Melbourne-Topo.json",
+                "format":{"type": "topojson","feature": "2020 Building Footprints"}
+            },
+            "mark": {"type": "geoshape", "fill": null,"stroke":"lightgrey"}
+        },
+
+        {
+            "data":{
+                "url": "data/PedCounts2020Sept16th.csv",
+                "format":{"type": "csv"}
+            },
+            "transform": [
+                {"filter": "datum.Time == time_hour"}
+            ],
+            "mark": "circle",
+            "encoding": {
+                "longitude":{
+                    "field": "longitude",
+                    "type": "quantitative"
+                },
+                "latitude":{
+                    "field": "latitude",
+                    "type": "quantitative"
+                },
+                "tooltip":[
+                    {"field":"Sensor_Name","type": "nominal","title":"Sensor Location"},
+                    {"field":"Hourly_Counts","type": "quantitative","title":"Hourly Count"}
+                ],
+                "color":{"value":"red"},
+                "size": {
+                    "field": "Hourly_Counts",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "threshold",
+                        "domain": [100, 200, 400, 800, 1600, 3200],
+                        "range" : [10, 50, 150, 300, 500, 700, 1000]
+
+                    }
+                }
+            }
+
+        }
+
+    ]
+}
