@@ -45,7 +45,7 @@
                 "url": "data/Melbourne-Topo.json",
                 "format":{"type": "topojson","feature": "2020 Building Footprints"}
             },
-            "mark": {"type": "geoshape", "fill": null,"stroke":"lightgrey"}
+            "mark": {"type": "geoshape", "fill": "lightgrey","stroke":"grey"}
         },
 
         {
