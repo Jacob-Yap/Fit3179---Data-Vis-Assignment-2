@@ -1,22 +1,20 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 800,
-    "height": 500,
-    "title": "Melbourne Pedestrian Activity (September 16th, 2020)",
+    "width": "container",
+    "height":500,
+    "title": "Melbourne Pedestrian Activity (August 5th-11th, 2019)",
     "projection": {"type":"equirectangular","scale":1050000,"center":[144.957783,-37.809564]},
 
     "params": [
         {   "name": "time_hour", "value": 0,
-            "bind": {"input": "range", "min": 0, "max": 23, "step": 1,"name": "Time(Hour)"}
+            "bind": {"input": "range", "min": 0, "max": 23, "step": 1,"name": "Time(Hour):"}
+    },
+    {
+        "name": "time_day","value": 5,
+        "bind": {"input": "range", "min": 5, "max":11, "step": 1,"name": "Day:"}
     }
     ],
 
-    "datasets": {
-        "pedcounts": {
-            "url": "data/PedCounts2020Sept16th.csv",
-            "format":{"type": "csv"}
-        }
-    },
 
     "layer": [
         {
@@ -50,11 +48,11 @@
 
         {
             "data":{
-                "url": "data/PedCounts2020Sept16th.csv",
+                "url": "data/PedCountWeek.csv",
                 "format":{"type": "csv"}
             },
             "transform": [
-                {"filter": "datum.Time == time_hour"}
+                {"filter": "datum.Time == time_hour && datum.Mdate == time_day"}
             ],
             "mark": "circle",
             "encoding": {

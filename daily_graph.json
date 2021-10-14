@@ -1,0 +1,41 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Pedestrian Counts over the week",
+    "data": {
+        "url": "data/PedCountWeek.csv",
+        "format":{"type": "csv"}
+    },
+
+    "width":"container",
+
+    "mark":{
+        "type": "bar"
+    },
+    
+    "encoding": {
+        "x":{
+            "field":"Date_Time",
+            "timeUnit": {
+                "unit":"dayhours"
+            },
+            "type": "temporal",
+            "sort":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        },
+        "y":{
+            "field":"Hourly_Counts",
+            "type": "quantitative"
+        },
+        "color": {
+            "field": "Day",
+            "type":"ordinal",
+            "sort":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "scale": {
+                "domain": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+                "range": ["#003f5c","#374c80","#7a5195","#bc5090","#ef5675","#ff764a","#ffa600"]
+            }
+            
+        }
+    },
+    "config": {}
+
+}

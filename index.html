@@ -1,25 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>A Week in Melbourne</title>
   <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
   
   
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+<!-- Import pure.css -->
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Google Font-->
+<link href="https://fonts.googleapis.com/css2?family=Andada+Pro&display=swap" rel="stylesheet"> 
+
+<!-- CSS File-->
+<link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+
   
 </head>
 
 <body>
   
+     <!-- pure grid group -->
+     <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h1>A week in Melbourne</h1>
+        <p>Before we faced lockdown, what did a typical week look like for Melbournians?</p>
+      </div>
+    </div>
+  <!-- end pure grid group -->
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-2-3">
+        <div id="vis_sensor"  class="vis-container"></div>
+      </div>
+
+      <div class="pure-u-1-3">
+        <div class="description description-right">
+          <h2>Map</h2>
+          <p>
+            The following is a map of the central Metropolitan area, alongside a choropleth map of each sensor.
+            Use the Time and Day controls on the bottom left to view how pedestrian activities change over the day.
+          </p>
+        </div>
+      </div>
+    
+  </div>
+  <!-- end pure grid group -->
+
+        <!-- pure grid group -->
+        <div class="pure-g">
+          <div class="pure-u-1-3">
+            <div class="description description-right">
+              <h2>Dot Graph</h2>
+              <p>This chart shows how most days have a similar pattern of activity.</p>
+            </div>
+          </div>
+
+          <div class="pure-u-2-3">
+            <div id="vis_dots_graph"  class="vis-container"></div>
+          </div>
+      </div>
+      <!-- end pure grid group -->
+
+      <!-- pure grid group -->
+      <div class="pure-g">
+        <div class="pure-u-2-3">
+          <div id="vis_line_graph"  class="vis-container"></div>
+        </div>
+  
+        <div class="pure-u-1-3">
+          <div class="description description-right">
+            <h2>Bar Chart</h2>
+            <p>Similar to the previous section, but the colum partition is swapped. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Massa sapien faucibus et molestie ac feugiat sed. Egestas purus viverra accumsan in nisl.</p>
+          </div>
+        </div>
+      
+    </div>
+    <!-- end pure grid group -->
 <div id="symbol_map"></div>
 
 <script type="text/javascript">
 
-  var spec2 = "sensor_map.vg.json";
-  vegaEmbed('#symbol_map', spec2).then(function(result) {
+  var vis_sensor = "sensor_map.vg.json";
+  var vis_line_graph = "daily_graph.json";
+  var vis_dots_graph = "daily_graph_dots.json"
+
+  vegaEmbed('#vis_sensor', vis_sensor).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+
+  vegaEmbed('#vis_line_graph', vis_line_graph).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+
+  vegaEmbed('#vis_dots_graph', vis_dots_graph).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 </script>
