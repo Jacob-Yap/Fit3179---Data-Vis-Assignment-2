@@ -1,0 +1,109 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A histogram comparing weekday and weekend activity, as well as comparing the 2019 and 2021 numbers",
+    "hconcat":[
+        {"data": {"url": "data/PedCountWeek.csv","format":{"type": "csv"}},
+        
+            "vconcat": [{
+                "title":"Weekday 2019",
+                "mark":{"type": "bar"},
+                "width":500,
+                "transform": [{"filter": "datum.Weekday == 'Weekday'"}],
+                "encoding": {
+                    "y":{
+                        "field":"Hourly_Counts",
+                        "aggregate":"average",
+                        "type": "quantitative",
+                        "scale":{"domain":[0,1600]},
+                        "axis":{"title":"Average Hourly Count"}
+                    },
+                    "x":{
+                        "field":"Date_Time",
+                        "type": "temporal",
+                        "timeUnit":"hours",
+                        "axis":{"title":"Time (Hours)"}
+                    },
+                    "color":{"value":"#983731"},
+                    "tooltip":[
+                        {"field":"Date_Time","type": "temporal","timeUnit":"hours","title":"Time"},
+                        {"field":"Hourly_Counts","aggregate":"average","title":"Average Count","format":".2f"}]
+                    
+                }
+    },{
+        "title":"Weekend 2019",
+                "mark":{"type": "bar"},
+                "width":500,
+                "transform": [{"filter": "datum.Weekday == 'Weekend'"}],
+                "encoding": {
+                    "y":{
+                        "field":"Hourly_Counts",
+                        "aggregate":"average",
+                        "type": "quantitative",
+                        "scale":{"domain":[0,1600]},
+                        "axis":{"title":"Average Hourly Count"}
+                    },
+                    "x":{
+                        "field":"Date_Time",
+                        "type": "temporal",
+                        "timeUnit":"hours",
+                        "axis":{"title":"Time (Hours)"}
+                    },
+                    "color":{"value":"#ca8861"},
+                    "tooltip":[
+                        {"field":"Date_Time","type": "temporal","timeUnit":"hours","title":"Time"},
+                        {"field":"Hourly_Counts","aggregate":"average","title":"Average Count","format":".2f"}]
+                }
+    }]
+
+    },{"data": {"url": "data/PedCounts2021AugWeek.csv","format":{"type": "csv"}},
+        "vconcat": [{
+        "title":"Weekday 2021",
+                "mark":{"type": "bar"},
+                "width":500,
+                "transform": [{"filter": "datum.Weekday == 'Weekday'"}],
+                "encoding": {
+                    "y":{
+                        "field":"Hourly_Counts",
+                        "aggregate":"average",
+                        "type": "quantitative",
+                        "scale":{"domain":[0,1600]},
+                        "axis":{"orient":"right","title":null}
+                    },
+                    "x":{
+                        "field":"Date_Time",
+                        "type": "temporal",
+                        "timeUnit":"hours",
+                        "axis":{"title":"Time (Hours)"}
+                    },
+                    "color":{"value":"#7f2b91"},
+                    "tooltip":[
+                        {"field":"Date_Time","type": "temporal","timeUnit":"hours","title":"Time"},
+                        {"field":"Hourly_Counts","aggregate":"average","title":"Average Count","format":".2f"}]
+                }
+    },{
+        "title":"Weekend 2021",
+                "mark":{"type": "bar"},
+                "width":500,
+                "transform": [{"filter": "datum.Weekday == 'Weekend'"}],
+                "encoding": {
+                    "y":{
+                        "field":"Hourly_Counts",
+                        "aggregate":"average",
+                        "type": "quantitative",
+                        "scale":{"domain":[0,1600]},
+                        "axis":{"orient":"right","title":null}
+                    },
+                    "x":{
+                        "field":"Date_Time",
+                        "type": "temporal",
+                        "timeUnit":"hours",
+                        "axis":{"title":"Time (Hours)"}
+                    },
+                    "color":{"value":"#a84eb6"},
+                    "tooltip":[
+                        {"field":"Date_Time","type": "temporal","timeUnit":"hours","title":"Time"},
+                        {"field":"Hourly_Counts","aggregate":"average","title":"Average Count","format":".2f"}]
+                }
+    }]}]
+    
+}

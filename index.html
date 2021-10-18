@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>A Week in Melbourne</title>
+  <title>A Week with Melbourne...</title>
   <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
@@ -18,6 +18,9 @@
 <!-- CSS File-->
 <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
 
+<!-- Favicon-->
+<link rel="icon" type="image/png" href="android-chrome-192x192.png"/>
+
   
 </head>
 
@@ -26,24 +29,29 @@
      <!-- pure grid group -->
      <div class="pure-g">
       <div class="pure-u-1-1">
-        <h1>A week in Melbourne</h1>
-        <p>Before we faced lockdown, what did a typical week look like for Melbournians?</p>
+        <h1>A week with Melbourne...</h1>
+        <p><b>Before we faced lockdown, what did a typical week look like for Melbournians?</b></p>
+        <p>Started in 2009, the <b>Pedestrian Counting System</b> is an array of sensors placed in strategic locations around Melbourne to track pedestrian movement of every hour of every day. Its open-source availability allows for visualisation both before and during the current COVID-19 lockdown.</p>
+        <h2>Activity over Time</h2>
+        <p>The map below is a visualisation of Melbourne pedestrian activity, from August 5th to August 11th, 2019. The circles mark the locations of various pedestrian sensors that provide an hourly count of pedestrians seen at that location. <b>Click on any of the scatterplot squares below to view activity at that point in time.</b></p>
       </div>
     </div>
   <!-- end pure grid group -->
 
+       <!-- pure grid group -->
+       <div class="pure-g">
+        <div class="pure-u-1-1">
+          <div id="vis_sensor"  class="vis-container"></div>
+        </div>
+      </div>
+    <!-- end pure grid group -->
+
     <!-- pure grid group -->
     <div class="pure-g">
-      <div class="pure-u-2-3">
-        <div id="vis_sensor"  class="vis-container"></div>
-      </div>
-
-      <div class="pure-u-1-3">
-        <div class="description description-right">
-          <h2>Map</h2>
+      <div class="pure-u-1-1">
+        <div class="description description">
           <p>
-            The following is a map of the central Metropolitan area, alongside a choropleth map of each sensor.
-            Use the Time and Day controls on the bottom left to view how pedestrian activities change over the day.
+            Here are a few insights as to what happens during a standard week in Melbourne:
           </p>
         </div>
       </div>
@@ -51,53 +59,145 @@
   </div>
   <!-- end pure grid group -->
 
-        <!-- pure grid group -->
-        <div class="pure-g">
-          <div class="pure-u-1-3">
-            <div class="description description-right">
-              <h2>Dot Graph</h2>
-              <p>This chart shows how most days have a similar pattern of activity.</p>
-            </div>
-          </div>
-
-          <div class="pure-u-2-3">
-            <div id="vis_dots_graph"  class="vis-container"></div>
-          </div>
-      </div>
-      <!-- end pure grid group -->
-
       <!-- pure grid group -->
       <div class="pure-g">
-        <div class="pure-u-2-3">
-          <div id="vis_line_graph"  class="vis-container"></div>
-        </div>
-  
-        <div class="pure-u-1-3">
-          <div class="description description-right">
-            <h2>Bar Chart</h2>
-            <p>Filler Text</p>
+        <div class="pure-u-1-4">
+          <div class="description">
+            <h3>Weekday Rush Hours</h3>
+            <p>
+              On weekdays at 8am, there are large spikes in pedestrian movement around <b>Southern Cross</b> and <b>Flinders Street Stations</b>. This is most likely people making the commute to work via train and public transport. We see a spike in these transit areas again at 5pm, when people are starting to leave work and head home.
+            </p>
+            <p><b>On weekends, we don't see a rush hour.</b> Saturday and Sunday activity starts to peak around midday to early afternoon.</p>
           </div>
         </div>
       
+        <div class="pure-u-1-8"></div>
+        
+        <div class="pure-u-1-4">
+          <div class="description">
+
+            <h3>Busy Midday</h3>
+            <p>
+              Throughout the week, <b>The midday period is one of the busiest days</b>. It's possible that people are venturing out <b>to grab lunch</b>, whether for a quick bite to eat during the weekday, or for planned meetups on the weekend.
+            </p>
+            <p>One thing to note is that the increase in activity <b>happens throughout the city</b>. This is evident by flicking between 11am and 12pm on any given day. </p>
+          </div>
+        </div>
+
+        <div class="pure-u-1-8"></div>
+
+        <div class="pure-u-1-4">
+          <div class="description">
+            <h3>Friday, Weekend Nightlife</h3>
+            <p>
+              The city is still active late at night, especially <b>on Friday and Saturday nights</b>. People are either finished with their work week, or are in the city for leisure reasons.
+            </p>
+            <p>Also note the large spike on Friday 6pm at <b>Bourke Street Bridge</b>. This spike is most likely due to a sports game happening at the nearby <b>Docklands Stadium</b> drawing audiences.</p>
+          </div>
+        </div>
     </div>
     <!-- end pure grid group -->
-<div id="symbol_map"></div>
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h2>Activity by Sensor</h2>
+        <p>We can also group pedestrian activity by which sensor recorded the movement. On the left hand side is the <b>proportion of weekday and weekend pedestrian counts.</b> On the right hand side is the <b>total amount of pedestrians seen by a given sensor</b>. </p>
+      </div>
+    </div>
+  <!-- end pure grid group -->
+
+          <!-- pure grid group -->
+          <div class="pure-g">
+            <div class="pure-u-1-1">
+              <div id="vis_bar_weekday"  class="vis-container"></div>
+            </div>
+          </div>
+        <!-- end pure grid group -->
+
+            <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <p>Typically, a sensor that sees an even amount of weekend and weekday activity will have a <b>30:70 split between the two</b>. Locations with a higher weekend to weekday ratio typically serve more as a recreational location, such as <b>Birrarung Marr</b> or <b>Chinatown</b>. Conversely, places with a lower weekend to weekday ratio may serve more of a commercial or transit need, such as <b>Southern Cross Station</b>.</p>
+      </div>
+    </div>
+  <!-- end pure grid group -->
+
+    <!-- pure grid group -->
+    <div class="pure-g">
+    <div class="pure-u-1-1">
+      <h1 class="without">...And a week without.</h1>
+      <p>In January 2020, the first confirmed case of the coronavirus disease 2019 (COVID-19) in Australia was identified. Over the coming months, borders would close, businesses would shut, and Victoria as a whole would come to a halt. There was a brief respite at the start of 2021, only to be plunged back into another lockdown halfway through the year.</p>
+      <p>As of the 19th of October, 2021, the Victorian government is poised to re-open metropolitan Melbourne, taking the first steps in restarting the city. But what was the city like without tourism, nightlife, and <i> people?</i> </p>
+      <p>Below is a map of a week of August 2019 activity, as well as <b>a week of August 2021 activity in lockdown</b>. Use the controls below to view the difference in activity between the two.</p>
+    </div>
+  </div>
+<!-- end pure grid group -->
+
+          <!-- pure grid group -->
+          <div class="pure-g">
+            <div class="pure-u-1-1">
+              <div id="vis_sensor_comparison"  class="vis-container"></div>
+            </div>
+          </div>
+        <!-- end pure grid group -->
+
+            <!-- pure grid group -->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <p>We can also see <b>the drop in activity</b> using a histogram, comparing weekday and weekend activity. On average, 2019 activty was <b>three times more active</b> than 2021 lockdown activity:</p>
+      </div>
+    </div>
+  <!-- end pure grid group -->
+
+                  <!-- pure grid group -->
+                  <div class="pure-g">
+                    <div class="pure-u-1-1">
+                      <div id="vis_histogram_comparison"  class="vis-container"></div>
+                    </div>
+                  </div>
+                <!-- end pure grid group -->
+  
+    <!-- end pure grid group -->
+
+                  <!-- pure grid group -->
+                  <div class="pure-g">
+                    <div class="pure-u-1-1">
+                      <h1>In Conclusion</h1>
+                      <p><b>Melbourne isn't the same city as it was two years ago,</b> and it's very unlikely that we'll be getting the hustle and bustle we've been missing so dearly in the city.</p>
+                      <p>When restrictions do open up, there is simply less reason to go back. <b>Many workers have acclimatised to working from home</b>, and many office-type businesses have moved to a remote working system. There is still the hope for the retail and recreation spaces, however <b>many retailers have closed down since the start of lockdown.</b></p>
+                      <p>One of the biggest influencing factors of activity is <b>tourism</b>, both domestic and international. With borders still closed, we won't be able to reach the same peaks of activty we've experienced earlier.</p>
+                      <p>As the Pedestrian Counting System keeps collecting data for every hour of every day, we can continue to see the bigger picture of how COVID-19 has affected Melbourne.</p>
+                      <h2>Source</h2>
+                      <ul><b>Pedestrian Counting System:</b> <a href="url">https://data.melbourne.vic.gov.au/Transport/Pedestrian-Counting-System-Monthly-counts-per-hour/b2ak-trbp</a> </ul>
+
+                      <p>A Visualisation by Jacob Yap, 29680956.</p>
+                    </div>
+                  </div>
+                <!-- end pure grid group -->
 
 <script type="text/javascript">
 
   var vis_sensor = "sensor_map.vg.json";
-  var vis_line_graph = "daily_graph.json";
-  var vis_dots_graph = "daily_graph_dots.json"
+  var vis_sensor_comparison = "sensor_map_comparison.vg.json";
+  var vis_bar_weekday = "bar_chart_sensors_weekday.json";
+  var vis_histogram_comparison = "histogram_comparison.json";
+
 
   vegaEmbed('#vis_sensor', vis_sensor).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 
-  vegaEmbed('#vis_line_graph', vis_line_graph).then(function(result) {
+
+  vegaEmbed('#vis_bar_weekday', vis_bar_weekday).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 
-  vegaEmbed('#vis_dots_graph', vis_dots_graph).then(function(result) {
+  vegaEmbed('#vis_sensor_comparison', vis_sensor_comparison).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+
+  vegaEmbed('#vis_histogram_comparison', vis_histogram_comparison).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 </script>

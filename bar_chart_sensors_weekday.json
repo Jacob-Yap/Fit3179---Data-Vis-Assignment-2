@@ -1,0 +1,69 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A concatenated chart of total pedestrian counts for each sensor.The right side shows total count, the left side shows the proportion of weekday/weekend counts.",
+    "spacing": 5,
+    "data": {"url": "data/PedCountWeek.csv","format":{"type": "csv"}},
+    "hconcat":[        {
+        "mark":{
+            "type": "bar"
+        },
+        "width":400,
+        "transform": [{"calculate": "if(datum.Weekday === 'Weekday',0,1)", "as": "isWeekday"}],
+        "encoding": {
+            "y":{"field": "Sensor_Name", "type": "ordinal", "sort": "-x","axis":null},
+            "x" :{
+                "field": "Hourly_Counts",
+                "type": "quantitative",
+                "aggregate":"sum",
+                "stack":"normalize",
+                "title":"Proportion of Weekday/Weekend Counts",
+                "axis":{"orient":"top"},
+                "sort":"descending"
+            },
+            "color": {
+                "field": "Weekday",
+                "legend":{"title":"Legend"},
+                "scale": {"range": ["#983731", "#ca8861"]}
+            },
+            "order": {"field":"isWeekday"}
+            }
+    },
+        {
+            "width":100,
+            "mark":{"type":"text",
+            "align":"center","fontWeight":300,"fontSize":15,"font":"Calibri"},
+            "view": {"stroke":null},
+            "encoding": {
+                "y":{"field":"Sensor_Name",
+                    "type":"nominal",
+                    "axis":null,
+                    "sort": {"op": "sum", "field": "Hourly_Counts","order":"descending"}
+                    },
+                "text":{"field":"Sensor_Name","type": "nominal"}
+        }
+    },{
+        "mark":{
+            "type": "bar"
+        },
+        "width":400,
+        "transform": [{"calculate": "if(datum.Weekday === 'Weekday',0,1)", "as": "isWeekday"}],
+        "encoding": {
+            "y":{"field": "Sensor_Name", "type": "ordinal", "sort": "-x","axis":null},
+            "x" :{
+                "field": "Hourly_Counts",
+                "type": "quantitative",
+                "aggregate":"sum",
+                "axis":{"orient":"top"},
+                "sort":"ascending",
+                "title":"Total Counts"
+            },
+            "color": {
+                "field": "Weekday",
+                "scale": {"range": ["#983731", "#ca8861"]}
+            },
+            "order": {"field":"isWeekday"}
+            }
+    }],
+    "config":{"view": {"stroke":null}}
+
+}

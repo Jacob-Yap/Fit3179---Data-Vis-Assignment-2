@@ -1,18 +1,31 @@
 
 *{font-family: 'Andada Pro', serif;}
-
+body {
+  width: 280mm;
+  height: 90%;
+  margin: 0 auto;
+  padding: 5%;
+  font-size: 12pt;
+  background: rgb(122, 121, 121); 
+}
+b{
+  color: rgb(145, 7, 7);
+}
 h1{
     font-weight: 900;
   }
+h1.without{
+  text-align: right;
+}
    body{
      background-color: rgb(255, 255, 255);
    }
    .page{
      width: 850px;    
-     background-color: white;   
+     background-color: rgb(255, 255, 255);   
      margin: auto;
      padding: 50px;
-     padding-top: 35px;
+     padding-top: 50px;
   }
   .vis-container{
     width: 100%;

@@ -1,87 +1,165 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container",
-    "height":500,
-    "title": "Melbourne Pedestrian Activity (August 5th-11th, 2019)",
-    "projection": {"type":"equirectangular","scale":1050000,"center":[144.957783,-37.809564]},
-
-    "params": [
-        {   "name": "time_hour", "value": 0,
-            "bind": {"input": "range", "min": 0, "max": 23, "step": 1,"name": "Time(Hour):"}
-    },
-    {
-        "name": "time_day","value": 5,
-        "bind": {"input": "range", "min": 5, "max":11, "step": 1,"name": "Day:"}
-    }
-    ],
-
-
-    "layer": [
-        {
-            "data":{
-                "url": "data/Melbourne-Topo.json", 
-                "format":{"type": "topojson","feature": "Municipal boundary"}
-            },
-            "mark": {"type": "geoshape","fill":"white", "stroke": "black"}
-        },
-        {
-            "data":{
-                "url": "data/Melbourne-Topo.json",
-                "format":{"type": "topojson","feature": "Waterways_Centreline"}
-            },
-            "mark": {"type": "geoshape", "stroke": "lightblue","fill":null,"strokeWidth": 10}
-        },
-        {
-            "data":{
-                "url": "data/Melbourne-Topo.json",
-                "format":{"type": "topojson","feature": "Street names"}
-            },
-            "mark": {"type": "geoshape", "stroke": "grey","fill":null}
-        },
-        {
-            "data":{
-                "url": "data/Melbourne-Topo.json",
-                "format":{"type": "topojson","feature": "2020 Building Footprints"}
-            },
-            "mark": {"type": "geoshape", "fill": "lightgrey","stroke":"grey"}
-        },
-
-        {
-            "data":{
-                "url": "data/PedCountWeek.csv",
-                "format":{"type": "csv"}
-            },
-            "transform": [
-                {"filter": "datum.Time == time_hour && datum.Mdate == time_day"}
-            ],
-            "mark": "circle",
-            "encoding": {
-                "longitude":{
-                    "field": "longitude",
-                    "type": "quantitative"
+    
+    "vconcat": [{
+        "title": "Melbourne Pedestrian Activity (August 5th-11th, 2019)",
+        "width": "container",
+        "height":500,
+        "projection": {"type":"equirectangular","scale":900000,"center":[144.957783,-37.795564]},
+        "layer": [
+            {
+                "data":{
+                    "url": "data/Melbourne-Topo.json", 
+                    "format":{"type": "topojson","feature": "Municipal boundary"}
                 },
-                "latitude":{
-                    "field": "latitude",
-                    "type": "quantitative"
+                "mark": {"type": "geoshape","fill":"#ffffff", "stroke": "black"}
+            },
+            {
+                "data":{
+                    "url": "data/ESTUARIES.json",
+                    "format":{"type": "topojson","feature": "ESTUARIES"}
                 },
-                "tooltip":[
-                    {"field":"Sensor_Name","type": "nominal","title":"Sensor Location"},
-                    {"field":"Hourly_Counts","type": "quantitative","title":"Hourly Count"}
+                "mark": {"type": "geoshape","fill":"lightblue"}
+            },
+            {
+                "data":{
+                    "url": "data/Property_boundaries.geojson",
+                    "format":{"type": "json"}
+                },
+                "mark": {"type": "geoshape","stroke":"grey","fill":null}
+            },
+            {
+                "data":{
+                    "url": "data/Melbourne-Topo.json",
+                    "format":{"type": "topojson","feature": "Street names"}
+                },
+                "mark": {"type": "geoshape", "stroke": "grey","fill":null}
+            },
+            {
+                "data":{
+                    "url": "data/PedCountWeek.csv",
+                    "format":{"type": "csv"}
+                },
+                "transform": [
+                    {"filter": {"param":"select"}}
                 ],
-                "color":{"value":"red"},
-                "size": {
-                    "field": "Hourly_Counts",
-                    "type": "quantitative",
-                    "scale": {
-                        "type": "threshold",
-                        "domain": [100, 200, 400, 800, 1600, 3200],
-                        "range" : [10, 50, 150, 300, 500, 700, 1000]
+                "mark": "circle",
+                "encoding": {
+                    "longitude":{
+                        "field": "longitude",
+                        "type": "quantitative"
+                    },
+                    "latitude":{
+                        "field": "latitude",
+                        "type": "quantitative"
+                    },
+                    "tooltip":[
+                        {"field":"Sensor_Name","type": "nominal","title":"Sensor Location"},
+                        {"field":"Hourly_Counts","type": "quantitative","title":"Hourly Count"}
+                    ],
+                    "color":{
+                        "field": "Hourly_Counts",
+                        "type": "quantitative",
+                        "scale": {
+                            "type": "bin-ordinal",
+                            "domain": [500,1000,2000,4000,6000],
+                            "range": ["#c97777","#ba615f","#a94c48","#983731","#87201b","#740000"]
+                        }
+                    },
+                    "opacity":{"value": 0.9},
+                    "size": {
+                        "field": "Hourly_Counts",
+                        "type": "quantitative",
+                        "legend": {"title": "Hourly Sensor Count"},
+                        "scale": {
+                            "type": "threshold",
+                            "domain": [500,1000,2000,4000,6000],
+                            "range" : [100,200,400,800,1200,1600]
 
-                    }
+                        }
+                    },
+                    "stroke":{"value":"black"},
+                    "strokeWidth":{"value":0.5}
                 }
+
             }
 
-        }
+        ]
 
-    ]
+    },{
+        "title": "Pedestrian Counts over the week",
+        "data": {
+            "url": "data/PedCountWeek.csv",
+            "format":{"type": "csv"}
+        },
+        
+        "width":"container",
+        "height": 250,
+        "params": [
+            {"name": "highlight", "select":{"type": "point", "on": "mouseover"}},
+            {"name": "select", "select": {"type": "point", "encodings": ["x","y"]}}
+        ],
+        "mark":{
+            "type": "square",
+            "cursor":"pointer"
+        },
+    
+        "encoding": {
+            "x":{
+                "field": "Date_Time",
+                "type": "temporal",
+                "timeUnit": "hours",
+                "title": "Time (Hour)"
+            },
+            "y":{
+                "field":"Day",
+                "type": "ordinal",
+                "sort": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+            },
+            "color":{
+                "field": "Hourly_Counts",
+                "type": "quantitative",
+                "aggregate":"sum",
+                "legend":{"title":"Total Hourly Sensor Count"},
+                "scale":{
+                    "type":"threshold",
+                    "domain": [10000,20000,30000,40000,50000,60000],
+                    "range": ["#c99393",
+                        "#be7c7b",
+                        "#b16663",
+                        "#a4504b",
+                        "#953a33",
+                        "#85221c",
+                        "#740000"] 
+                }
+            },
+            "tooltip":[
+                {"field":"Date_Time","type": "temporal","timeUnit":"dayhours","title":"Date and Time"},
+                {"field":"Hourly_Counts","aggregate":"sum","title":"Total Count"}
+            ],
+            "fillOpacity": {
+                "condition": {"param": "select","value": 1},
+                "value": 0.5
+            },
+            "size":{
+                "field": "Hourly_Counts",
+                "type": "quantitative",
+                "aggregate":"sum",
+                "legend":null,
+                "scale":{
+                    "type": "bin-ordinal",
+                    "domain":[10000,40000],
+                    "range":[200,500]
+                }
+
+            }
+
+                    }
+        }
+    ],
+    "resolve": {
+        "legend": {
+          "color": "independent",
+          "size": "independent"}}
+
 }
